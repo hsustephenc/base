@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# to print results of certain bike and bus stations
+
 """
 Spyder Editor
 
