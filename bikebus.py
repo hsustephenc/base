@@ -96,8 +96,7 @@ for sta in stations:
         min = (sec - left) / 60
         tim = pd.Timestamp(i2["expectedArrival"]).tz_convert('Europe/London')
         print(i2["lineName"] + " to " + i2["destinationName"])
-        print("Expected in " + str(min) + " min & " + str(left) + " secs, at ")
-        print(tim)
+        print("Expected in " + str(min) + " min & " + str(left) + " secs, at " + str(tim))
         print("")
 
 
