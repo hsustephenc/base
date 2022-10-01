@@ -61,7 +61,7 @@ print(json.dumps(a, indent=4))
 """
 
 
-
+"""
 list = [109,244,141,301,106]
 
 for i in list:
@@ -78,40 +78,27 @@ for i in list:
     print("Last Updated: " + str(x))
     print("")
 
+"""
 
 # 490004005S Billingsate Market toward Limehouse
 # 490004005N Billingsate Market toward Stratford
 
-
-resp2 = requests.get("https://api.tfl.gov.uk/StopPoint/490004005S/Arrivals")
-a2 = resp2.json()
-print("Billingsgate Market towards Crossharbour or Limehouse")
-print("")
-for i2 in a2:
-    sec = i2["timeToStation"]
-    left = sec%60
-    min = (sec - left) / 60
-    tim = pd.Timestamp(i2["expectedArrival"]).tz_convert('Europe/London')
-    print(i2["lineName"] + " to " + i2["destinationName"])
-    print("Expected in " + str(min) + " min & " + str(left) + " secs, at ")
-    print(tim)
+stations = ["490004005S", "490004005N"] 
+ 
+for sta in stations:
+    resp2 = requests.get("https://api.tfl.gov.uk/StopPoint/" + sta +"/Arrivals")
+    a2 = resp2.json()
+    print("Billingsgate Market towards " + (a2[0]["towards"]))
     print("")
-
-
-resp3 = requests.get("https://api.tfl.gov.uk/StopPoint/490004005N/Arrivals")
-a3 = resp3.json()
-print("Billingsgate Market towards Bow or Leamouth")
-print("")
-for i3 in a3:
-    sec = i3["timeToStation"]
-    left = sec%60
-    min = (sec - left) / 60
-    tim = pd.Timestamp(i3["expectedArrival"]).tz_convert('Europe/London')
-    print(i3["lineName"] + " to " + i3["destinationName"])
-    print("Expected in " + str(min) + " min & " + str(left) + " secs, at ")
-    print(tim)
-    print("")
-
+    for i2 in a2:
+        sec = i2["timeToStation"]
+        left = sec%60
+        min = (sec - left) / 60
+        tim = pd.Timestamp(i2["expectedArrival"]).tz_convert('Europe/London')
+        print(i2["lineName"] + " to " + i2["destinationName"])
+        print("Expected in " + str(min) + " min & " + str(left) + " secs, at ")
+        print(tim)
+        print("")
 
 
 
