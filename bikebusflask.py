@@ -56,22 +56,27 @@ def home():
             c = c + "Station Billingsgate Market towards " + nam + " has no arrivals currently" + "<br><br>"
             
     total = total + c
-        
-    resp3 = requests.get("https://velib-metropole-opendata.smoove.pro/opendata/Velib_Metropole/station_status.json")
-    u = "<b>Velib</b><br><br>"
-    w = resp3.json()
-    x=w["data"]["stations"]
-
-    vstations = {66505516:"Cordelières - Arago",210749865:"Port-Royal - Hôpital du Val-de-Grâce"}
     
-    for v,s in vstations.items():
-        for j in x:
-            if j["station_id"] == v:
-                u1 = s + "<br>"
-                u2 = "Vélib mécanique(s): " + str(j["num_bikes_available_types"][0]["mechanical"]) + "<br>"
-                u3 = "Vélib électrique(s): " + str(j["num_bikes_available_types"][1]["ebike"]) + "<br>"
-                u4 = "Place(s): " + str(j["numDocksAvailable"]) + "<br><br>"
-                u = u + u1 + u2 + u3 + u4
+    u = "<b>Velib</b><br><br>"
+    
+    try:
+        resp3 = requests.get("https://velib-metropole-opendata.smoove.pro/opendata/Velib_Metropole/station_status.json")
+        w = resp3.json()
+        x=w["data"]["stations"]
+        
+        vstations = {66505516:"Cordelières - Arago",210749865:"Port-Royal - Hôpital du Val-de-Grâce"}
+        
+        for v,s in vstations.items():
+            for j in x:
+                if j["station_id"] == v:
+                    u1 = s + "<br>"
+                    u2 = "Vélib mécanique(s): " + str(j["num_bikes_available_types"][0]["mechanical"]) + "<br>"
+                    u3 = "Vélib électrique(s): " + str(j["num_bikes_available_types"][1]["ebike"]) + "<br>"
+                    u4 = "Place(s): " + str(j["numDocksAvailable"]) + "<br><br>"
+                    u = u + u1 + u2 + u3 + u4
+    except:
+        u = u + "Sorry the Velib thing doesn't work<br>"
+        
     total = total + u
 
     return total
