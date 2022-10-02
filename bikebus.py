@@ -79,24 +79,31 @@ for i in list:
     print("")
 
 
+
 # 490004005S Billingsate Market toward Limehouse
 # 490004005N Billingsate Market toward Stratford
 
-stations = ["490004005S", "490004005N"] 
- 
-for sta in stations:
-    resp2 = requests.get("https://api.tfl.gov.uk/StopPoint/" + sta +"/Arrivals")
-    a2 = resp2.json()
-    print("Billingsgate Market towards " + (a2[0]["towards"]))
-    print("")
-    for i2 in a2:
-        sec = i2["timeToStation"]
-        left = sec%60
-        min = (sec - left) / 60
-        tim = pd.Timestamp(i2["expectedArrival"]).tz_convert('Europe/London')
-        print(i2["lineName"] + " to " + i2["destinationName"])
-        print("Expected in " + str(min) + " min & " + str(left) + " secs, at " + str(tim))
+stations = {"490004005S":"Crossharbour / Limehouse","490004005N":"Bow / Leamouth"}
+
+for sta,nam in stations.items():
+    try:
+        resp2 = requests.get("https://api.tfl.gov.uk/StopPoint/" + sta +"/Arrivals")
+        a2 = resp2.json()
+        print("Billingsgate Market towards " + (a2[0]["towards"]))
         print("")
+        for i2 in a2:
+            sec = i2["timeToStation"]
+            left = sec%60
+            min = (sec - left) / 60
+            tim = pd.Timestamp(i2["expectedArrival"]).tz_convert('Europe/London')
+            print(i2["lineName"] + " to " + i2["destinationName"])
+            print("Expected in " + str(min) + " min & " + str(left) + " secs, at " + str(tim))
+            print("")
+    except:
+        print("Station Billingsgate Market towards " + nam + " has no arrivals currently")
+
+
+
 
 
 resp3 = requests.get("https://velib-metropole-opendata.smoove.pro/opendata/Velib_Metropole/station_status.json")
