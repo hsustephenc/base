@@ -48,7 +48,7 @@ def home():
                 min = (sec - left) / 60
                 tim = pd.Timestamp(i2["expectedArrival"]).tz_convert('Europe/London')
                 c2 = i2["lineName"] + " to " + i2["destinationName"] + "<br>"
-                c3 = "Expected in " + str(min) + " min & " + str(left) + " secs, at " + str(tim) + "<br><br>"
+                c3 = "Expected in " + str('{:.0f}'.format(min)) + " min & " + str(left) + " secs, at " + str(tim) + "<br><br>"
                 c4 = c4 + c2 + c3
             c = c + c1 + c4
 
