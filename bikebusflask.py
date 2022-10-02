@@ -32,26 +32,31 @@ def home():
         sum = a1 + a21 + a22 + a3 + a4
         total = total + sum
         
-    stations = ["490004005S", "490004005N"] 
-    c = ""
+      
+    stations = {"490004005S":"Crossharbour / Limehouse","490004005N":"Bow / Leamouth"}
+    c = "<b>Bus</b><br><br>"
     c4 = ""
     
-    for sta in stations:
-        resp2 = requests.get("https://api.tfl.gov.uk/StopPoint/" + sta +"/Arrivals")
-        b2 = resp2.json()
-        c1 = "<b>Billingsgate Market towards " + (b2[0]["towards"]+ "</b><br><br>")
-        for i2 in b2:
-            sec = i2["timeToStation"]
-            left = sec%60
-            min = (sec - left) / 60
-            tim = pd.Timestamp(i2["expectedArrival"]).tz_convert('Europe/London')
-            c2 = i2["lineName"] + " to " + i2["destinationName"] + "<br>"
-            c3 = "Expected in " + str(min) + " min & " + str(left) + " secs, at " + str(tim) + "<br><br>"
-            c4 = c4 + c2 + c3
-        c = c + c1 + c4
-    total = total + c
+    for sta,nam in stations.items():
+        try:
+            resp2 = requests.get("https://api.tfl.gov.uk/StopPoint/" + sta +"/Arrivals")
+            b2 = resp2.json()
+            c1 = "<b>Billingsgate Market towards " + (b2[0]["towards"]+ "</b><br><br>")
+            for i2 in b2:
+                sec = i2["timeToStation"]
+                left = sec%60
+                min = (sec - left) / 60
+                tim = pd.Timestamp(i2["expectedArrival"]).tz_convert('Europe/London')
+                c2 = i2["lineName"] + " to " + i2["destinationName"] + "<br>"
+                c3 = "Expected in " + str(min) + " min & " + str(left) + " secs, at " + str(tim) + "<br><br>"
+                c4 = c4 + c2 + c3
+            c = c + c1 + c4
 
-    
+        except:
+            c = c + "Station Billingsgate Market towards " + nam + " has no arrivals currently" + "<br><br>"
+            
+    total = total + c
+        
     resp3 = requests.get("https://velib-metropole-opendata.smoove.pro/opendata/Velib_Metropole/station_status.json")
     u = "<b>Velib</b><br><br>"
     w = resp3.json()
