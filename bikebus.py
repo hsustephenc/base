@@ -101,6 +101,7 @@ for sta,nam in stations.items():
             print("")
     except:
         print("Station Billingsgate Market towards " + nam + " has no arrivals currently")
+        print("")
 
 
 
