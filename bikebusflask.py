@@ -35,10 +35,10 @@ def home():
       
     stations = {"490004005S":"Crossharbour / Limehouse","490004005N":"Bow / Leamouth"}
     c = "<b>Bus</b><br><br>"
-    c4 = ""
     
     for sta,nam in stations.items():
         try:
+            c4 = ""         
             resp2 = requests.get("https://api.tfl.gov.uk/StopPoint/" + sta +"/Arrivals")
             b2 = resp2.json()
             c1 = "<b>Billingsgate Market towards " + (b2[0]["towards"]+ "</b><br><br>")
