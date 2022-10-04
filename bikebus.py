@@ -113,7 +113,7 @@ w = resp3.json()
 
 x=w["data"]["stations"]
 
-vstations = {66505516:"Cordelières - Arago",210749865:"Port-Royal - Hôpital du Val-de-Grâce"}
+vstations = {66505516:"Cordelières - Arago",210749865:"Port-Royal - Hôpital du Val-de-Grâce",54000550:"Rapp - Place du Général Gouraud"}
 
 for v,s in vstations.items():
     for j in x:
