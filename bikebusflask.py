@@ -78,6 +78,25 @@ def home():
         u = u + "Sorry the Velib thing doesn't work<br>"
         
     total = total + u
+    
+    resp4 = requests.get("https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Transportation_WebMercator/MapServer/5/query?where=1%3D1&outFields=*&outSR=4326&f=json")
+    d = resp4.json()
+    e = d["features"]
+    
+    stas = ["386","85"]
+    h = "<b>Capital Bikes</b><br><br>"
+
+    for st in stas:
+        for f in e:
+            g = f["attributes"]
+            if g["STATION_ID"] == st:
+                h1 = g["NAME"] + "<br>"
+                h2 = "Number of Standard Bikes: " + str(g["NUM_BIKES_AVAILABLE"]) + "<br>"
+                h3 = "Number of E-Bikes: " + str(g["NUM_EBIKES_AVAILABLE"]) + "<br>"
+                h4 = "Number of Empty Docks: " + str(g["NUM_DOCKS_AVAILABLE"]) + "<br><br>"
+                h = h + h1 + h2 + h3 + h4
+
+    total = total + h
 
     return total
 
